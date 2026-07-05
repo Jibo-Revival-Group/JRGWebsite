@@ -23,6 +23,7 @@ const authors = {
     initials: "KK",
     pfp: "assets/pfp/kevin.png",
     url: "https://kevinblog.sytes.net/",
+    pro: "she is preferred",
     role: "Project Lead & Organizer"
   },
   jk: {
@@ -36,7 +37,7 @@ const authors = {
     initials: "ZV",
     pfp: "assets/pfp/zane.jpeg",
     url: "https://zane.org",
-    pro: "they/he/she",
+    pro: "they/any",
     role: "JiboOs Contributor & 5x1 (OpenJibo) Host & etc"
   },
   jc: {
@@ -50,6 +51,14 @@ const authors = {
     initials: "WW",
     pfp: "assets/pfp/wyatt.webp",
     role: "Discord Server Booster"
+  },
+  ma: {
+    name: "Maaarcna",
+    initials: "MA",
+    pfp: "assets/pfp/maaarcna.webp",
+    url: "https://marcnoguera.dev",
+    pro: "he/him",
+    role: ""
   },
   mc: {
     name: "Marcel",
@@ -76,11 +85,17 @@ const authors = {
     pfp: "assets/pfp/padre_san.webp",
     role: ""
   },
-  sd: {
+  ar: {
     name: "Alex Rose (Expert at Jiboeology)",
     initials: "AR",
     pfp: "assets/pfp/jibotolgyst.png",
     role: "Cheif Jiboeologist and Internet Dumb Dum"
+  },
+  de: {
+    name: "Dee",
+    initials: "DE",
+    pfp: "assets/pfp/dee.webp",
+    role: ""
   },
   dm: {
     name: "Demme",
