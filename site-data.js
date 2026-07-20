@@ -28,8 +28,9 @@ const authors = {
   },
   jk: {
     name: "Jaked",
-    initials: "JK",
+    initials: "JD",    
     pfp: "assets/pfp/jake.webp",
+    url: "https://jakedubin.com/",
     role: "OpenJibo Server Maintainer"
   },
   zv: {
