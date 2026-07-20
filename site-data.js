@@ -1,5 +1,5 @@
 const projectProgress = {
-  percentage: 84
+  percentage: 86
 };
 
 // Hello! You're probably here to credit yourself.
