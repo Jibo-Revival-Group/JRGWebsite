@@ -37,7 +37,6 @@ const authors = {
     initials: "ZV",
     pfp: "assets/pfp/zane.jpeg",
     url: "https://zane.org",
-    pro: "they/any",
     role: "JiboOs Contributor & 5x1 (OpenJibo) Host & etc"
   },
   jc: {
