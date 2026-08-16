@@ -1483,12 +1483,16 @@ body {
 .announcement-bar__text {
   margin: 0;
   color: #fff;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 40, 80, 0.45);
 }
 
 .fancy-button {
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: 8px 24px;
   background: #fec195;
   font-size: 14px;
@@ -1571,10 +1575,30 @@ body {
   transition: all 0.8s ease;
 }
 
+.fancy-button .star-1,
+.fancy-button .star-2,
+.fancy-button .star-3,
+.fancy-button .star-4,
+.fancy-button .star-5,
+.fancy-button .star-6 {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .fancy-button:hover {
+  overflow: visible;
   background: transparent;
   color: #fec195;
   box-shadow: 0 0 25px #fec1958c;
+}
+
+.fancy-button:hover .star-1,
+.fancy-button:hover .star-2,
+.fancy-button:hover .star-3,
+.fancy-button:hover .star-4,
+.fancy-button:hover .star-5,
+.fancy-button:hover .star-6 {
+  opacity: 1;
 }
 
 .fancy-button:hover .star-1 {
@@ -1639,4 +1663,145 @@ body {
 
 .fancy-button .fil0 {
   fill: #fffdef;
+}
+
+body[data-theme="aero"] .announcement-bar {
+  height: 64px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 46%, transparent 47%),
+    linear-gradient(180deg, #4eb4ff 0%, #2a8ef5 46%, #1a6fe0 47%, #0a4db8 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(11, 88, 209, 0.28),
+    0 10px 24px rgba(34, 71, 112, 0.2);
+}
+
+body[data-theme="aero"] .announcement-bar::before {
+  content: "";
+  position: absolute;
+  inset: 6px 10% auto;
+  height: 18px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.32), transparent 70%);
+  pointer-events: none;
+}
+
+body[data-theme="aero"] .announcement-bar > * {
+  position: relative;
+  z-index: 1;
+}
+
+body[data-theme="aero"] .announcement-bar__text {
+  color: #f8fcff;
+  text-shadow:
+    0 1px 0 rgba(6, 32, 78, 0.7),
+    0 0 10px rgba(6, 32, 78, 0.35);
+}
+
+body[data-theme="aero"] .fancy-button {
+  background: linear-gradient(180deg, #fefefe 0%, #dcecff 48%, #b7d7ff 49%, #8dc2ff 100%);
+  border: 1px solid rgba(52, 102, 164, 0.4);
+  border-radius: 12px;
+  color: #163658;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 2px 8px rgba(31, 120, 255, 0.28);
+}
+
+body[data-theme="aero"] .fancy-button:hover {
+  background: linear-gradient(180deg, #8dc2ff 0%, #4f8ff4 48%, #1f6fe9 49%, #1d61d6 100%);
+  color: #f8fcff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 0 18px rgba(141, 194, 255, 0.7);
+}
+
+body[data-theme="aero"] .fancy-button .fil0 {
+  fill: #ffffff;
+}
+
+.wormhole {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.wormhole:not([hidden]) {
+  pointer-events: auto;
+}
+
+body.wormhole-active {
+  overflow: hidden;
+}
+
+body.wormhole-active .wormhole {
+  opacity: 1;
+}
+
+body.wormhole-active .announcement-bar,
+body.wormhole-active .page-shell,
+body.wormhole-active .theme-toggle,
+body.wormhole-active .theme-menu {
+  transform-origin: 50% 50%;
+  animation: wormhole-suck 2s cubic-bezier(0.55, 0.05, 0.9, 0.35) both;
+}
+
+.wormhole__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wormhole--css::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background:
+    repeating-radial-gradient(
+      circle at center,
+      rgba(24, 178, 255, 0.0) 0 18px,
+      rgba(24, 178, 255, 0.85) 20px 22px,
+      rgba(255, 97, 20, 0.0) 24px 36px,
+      rgba(255, 140, 46, 0.55) 38px 40px,
+      rgba(24, 178, 255, 0.0) 42px 52px
+    ),
+    repeating-conic-gradient(
+      from 0deg at center,
+      rgba(79, 135, 232, 0.0) 0deg 18deg,
+      rgba(126, 203, 255, 0.55) 20deg 24deg,
+      rgba(79, 135, 232, 0.0) 24deg 40deg,
+      rgba(255, 97, 20, 0.4) 42deg 46deg
+    );
+  animation: wormhole-css-spin 0.55s linear infinite;
+}
+
+@keyframes wormhole-css-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes wormhole-suck {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.08);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.wormhole-active .announcement-bar,
+  body.wormhole-active .page-shell,
+  body.wormhole-active .theme-toggle,
+  body.wormhole-active .theme-menu,
+  .wormhole--css::before {
+    animation: none;
+  }
 }

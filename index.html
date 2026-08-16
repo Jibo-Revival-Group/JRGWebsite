@@ -20,7 +20,7 @@
   <body>
     <div class="announcement-bar">
       <p class="announcement-bar__text">Join our brand new forum to discuss about jibo modding!</p>
-      <a href="https://kevinblog.sytes.net/Jibo/Discussions/" class="fancy-button">
+      <a href="https://forum.jiborevival.com" class="fancy-button" id="forum-wormhole-link">
         <span>take me there</span>
         <div class="star-1">
           <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -114,7 +114,7 @@
             <div class="hero__actions">
               <a class="button button--primary" href="https://discord.gg/CxXBGMrrNG" target="_blank" rel="noreferrer">Join Discord</a>
               <a class="button button--ghost" href="https://jibo.guide">Open Docs</a>
-              <a class="button button--ghost" href="https://kevinblog.sytes.net/Jibo/Discussions/" target="_blank" rel="noreferrer">Discussions</a>
+              <a class="button button--ghost" href="https://forum.jiborevival.com" target="_blank" rel="noreferrer">Forum</a>
               <button class="button button--disabled" disabled title="Not yet available :/">Install The Mod</button>
             </div>
           </div>
@@ -231,6 +231,10 @@
           <a href="https://www.reddit.com/r/Jibo/" target="_blank" rel="noreferrer">Reddit</a>
         </p>
       </footer>
+    </div>
+
+    <div class="wormhole" id="wormhole" hidden aria-hidden="true">
+      <canvas class="wormhole__canvas" id="wormhole-canvas"></canvas>
     </div>
 
     <script src="site-data.js"></script>
