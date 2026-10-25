@@ -1,2 +1,5 @@
-plugins:
-  - jekyll-sitemap
+title: Jibo Revival Project
+description: Community servers, OpenJibo restoration, firmware research, and tools to help bring Jibo back.
+url: "https://www.jiborevival.com"
+baseurl: ""
+# sitemap.xml is maintained explicitly to list public content pages only.

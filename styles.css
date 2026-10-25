@@ -1840,3 +1840,5 @@ body.wormhole-active .theme-menu {
   body:not(.files-page) :is(.topbar__links a, .footer a) { text-shadow: none; }
   body:not(.files-page) :is(.theme-toggle, .hero__content, .topbar, .panel, .footer, .theme-menu, .hero-card--status) { box-shadow: var(--shadow); }
 }
+
+.hero-card--image img { height: auto; }
