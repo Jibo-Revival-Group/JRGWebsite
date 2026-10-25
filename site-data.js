@@ -34,17 +34,26 @@ const authors = {
     role: "OpenJibo Server Maintainer"
   },
   zv: {
-    name: "ZaneDev",
+    name: "Zane V",
     initials: "ZV",
     pfp: "assets/pfp/zane.jpeg",
+    pro: "(cazberg)",
     url: "https://zane.org",
-    role: "JiboOs Contributor & 5x1 (OpenJibo) Host & etc"
+    role: "BEcosystem Developer"
+  },
+  ps: {
+    name: "Pasketti",
+    initials: "PS",
+    pfp: "assets/pfp/pasketti.webp",
+    pro: "(Paskooter)",
+    url: "https://jibo.io",
+    role: "Pheonix Host"
   },
   jc: {
     name: "JackCain",
     pfp: "assets/pfp/jack.webp",
     initials: "JC",
-    role: ""
+    role: "Data Archivist"
   },
   ww: {
     name: "Wyatt Woolford",
@@ -60,63 +69,23 @@ const authors = {
     pro: "he/him",
     role: ""
   },
-  mc: {
-    name: "Marcel",
-    initials: "MC",
-    pfp: "assets/pfp/marcel.webp",
-    url: "https://www.mgdproductions.com/",
-    role: ""
-  },
-  rg: {
-    name: "RobotGuy",
-    initials: "RG",
-    pfp: "assets/pfp/robotguy.webp",
-    role: ""
-  },
   zm: {
     name: "Zetoman",
     initials: "ZM",
     pfp: "assets/pfp/zetoman.webp",
     role: ""
   },
-  ps: {
-    name: "Padre_San",
-    initials: "PS",
-    pfp: "assets/pfp/padre_san.webp",
-    role: ""
-  },
   ar: {
     name: "Alex Rose (Expert at Jiboeology)",
     initials: "AR",
     pfp: "assets/pfp/jibotolgyst.png",
-    role: "Cheif Jiboeologist and Internet Dumb Dum"
-  },
-  de: {
-    name: "Dee",
-    initials: "DE",
-    pfp: "assets/pfp/dee.webp",
-    role: ""
+    role: "Chief Jiboeologist and Internet Dumb Dum"
   },
   dm: {
     name: "Demme",
     initials: "DM",
     pfp: "assets/pfp/demme.webp",
     pro: "she/they",
-    role: "Community Manager & Assist"
+    role: "Community Moderator"
   },
 };
-
-const commits = [
-  {
-    date: "2026-03-15",
-    categories: ["RCM", "Firmware"],
-    summary: "Abusing the RCM to access eMMC. Was able to read the entire eMMC, and from there enter a developer mode.",
-    authors: ["kk", "zv"]
-  },
-  {
-    date: "2026-03-03",
-    categories: ["Board", "Firmware"],
-    summary: "BOOTROM dump was a lost battle. The team is currently trying to get a custom version of U-Boot working.",
-    authors: ["kk"]
-  }
-];
