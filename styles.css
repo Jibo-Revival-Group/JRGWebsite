@@ -1805,40 +1805,5 @@ body.wormhole-active .theme-menu {
     animation: none;
   }
 }
-/* Default and Aero use dark surfaces only when the system requests dark mode. */
-:root { color-scheme: light; }
-@media screen and (prefers-color-scheme: dark) {
-  :root { color-scheme: dark; }
-  body:not(.files-page) {
-    --bg: #10151d;
-    --bg-2: #141d29;
-    --bg-3: #192435;
-    --panel: rgba(24,34,48,.88);
-    --panel-strong: #23344c;
-    --text: #edf3fb;
-    --muted: #acbbce;
-    --line: rgba(194,212,237,.16);
-    --accent: #8bb5ff;
-    --accent-deep: #a7c8ff;
-    --accent-soft: rgba(139,181,255,.14);
-    --shadow: 0 18px 44px rgba(0,0,0,.25);
-    --aero-sheen: linear-gradient(180deg, rgba(150,195,244,.08), rgba(16,29,46,.14));
-    background: radial-gradient(circle at top left, rgba(79,135,232,.14), transparent 28%), linear-gradient(180deg, var(--bg), var(--bg-2) 58%, var(--bg-3));
-  }
-  body[data-theme="aero"]:not(.files-page) {
-    background: linear-gradient(rgba(9,22,39,.86), rgba(9,22,39,.91)), url("aero-bg.svg") center / cover no-repeat fixed, #101d2d;
-  }
-  body:not(.files-page) :is(.topbar, .panel, .hero__content, .footer, .hero-card, .theme-menu, .theme-toggle) { border-color: var(--line); }
-  body:not(.files-page) :is(.topbar, .theme-menu, .theme-toggle) { background: rgba(20,29,42,.94); }
-  body:not(.files-page) .hero__content { background: linear-gradient(135deg, rgba(30,44,64,.94), rgba(23,34,50,.85)); }
-  body:not(.files-page) .panel { background: var(--panel); }
-  body:not(.files-page) :is(.feature-card, .resource-card, .tools-card, .timeline-card, .helper-card) { background: linear-gradient(180deg, rgba(139,181,255,.06), transparent), #1b2738; border-color: var(--line); box-shadow: none; }
-  body:not(.files-page) .footer { background: rgba(16,24,40,.94); }
-  body:not(.files-page) :is(.button--ghost, .theme-menu__item, .chip) { background: #253a55; color: #d8e8ff; border-color: var(--line); text-shadow: none; }
-  body:not(.files-page) .button--primary { background: #8bb5ff; color: #10213b; }
-  body:not(.files-page) :is(.feature-card__label, .resource-card__kicker, .tools-card__kicker, .timeline-card__meta) { color: var(--accent-deep); }
-  body:not(.files-page) :is(.topbar__links a, .footer a) { text-shadow: none; }
-  body:not(.files-page) :is(.theme-toggle, .hero__content, .topbar, .panel, .footer, .theme-menu, .hero-card--status) { box-shadow: var(--shadow); }
-}
 
 .hero-card--image img { height: auto; }
