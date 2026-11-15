@@ -131,7 +131,7 @@ if (musicToggle && archiveTheme) {
   });
 }
 
-const forumLink = document.getElementById("forum-wormhole-link");
+const wormholeLink = document.getElementById("wiki-wormhole-link");
 const wormholeOverlay = document.getElementById("wormhole");
 const wormholeCanvas = document.getElementById("wormhole-canvas");
 const wormholeDurationMs = 2000;
@@ -153,45 +153,73 @@ void main() {
 `;
 
 const wormholeFragSrc = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
+#else
+precision mediump float;
+#endif
 uniform vec2 u_res;
-uniform float u_time;
+uniform float u_travel;
+uniform float u_twist;
+uniform float u_open;
+uniform float u_glow;
 uniform float u_progress;
+
+const float TAU = 6.2831853;
+const vec3 cyan = vec3(0.094, 0.698, 1.0);
+const vec3 deep = vec3(0.10, 0.26, 0.72);
+const vec3 ember = vec3(1.0, 0.38, 0.08);
+const vec3 amber = vec3(1.0, 0.62, 0.22);
+
+float hash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
+vec3 tunnel(vec2 p) {
+  float r = max(length(p), 0.001);
+  float z = 0.55 / r + u_travel;
+  float a = fract(atan(p.y, p.x) / TAU + z * u_twist);
+
+  // Wispy walls: integer angular frequencies keep the seam invisible
+  float w = 0.5 + 0.5 * sin(a * TAU * 6.0 + sin(z * 1.7) * 2.0);
+  w *= 0.5 + 0.5 * sin(z * 3.0 + sin(a * TAU * 3.0) * 1.5);
+  w = w * w * w;
+  float rings = pow(0.5 + 0.5 * sin(z * 6.0), 24.0);
+
+  // Star streaks rushing past
+  vec2 g = vec2(a * 48.0, z * 3.0);
+  vec2 f = fract(g);
+  float h = hash(floor(g));
+  float dash = smoothstep(0.45, 0.0, abs(f.x - 0.5)) * smoothstep(0.0, 0.2, f.y) * smoothstep(1.0, 0.5, f.y);
+  float star = step(0.93, h) * dash;
+
+  vec3 warm = mix(ember, amber, 0.5 + 0.5 * sin(z * 0.5 + a * TAU));
+  vec3 col = deep * w * 0.9;
+  col += mix(cyan, warm, 0.35) * rings * 1.3;
+  col += mix(vec3(0.85, 0.95, 1.0), amber, step(0.97, h)) * star * 2.2;
+  col *= smoothstep(0.0, 0.3, r);
+  col += mix(cyan, amber, 0.25) * 0.02 / (r * r + 0.002) * u_glow;
+  return col;
+}
 
 void main() {
   vec2 p = (gl_FragCoord.xy - 0.5 * u_res) / u_res.y;
+  float ca = 0.006 + 0.03 * u_progress;
+  vec3 col = vec3(
+    tunnel(p * (1.0 + ca)).r,
+    tunnel(p).g,
+    tunnel(p * (1.0 - ca)).b
+  );
+
+  // The hole opens from the centre, with a glowing rim while it grows
   float r = length(p);
-  float a = atan(p.y, p.x);
-
-  float speed = mix(2.2, 9.0, u_progress);
-  float twist = mix(0.28, 1.35, u_progress);
-  float z = 0.65 / max(r, 0.001) + u_time * speed;
-  a += z * twist;
-
-  float rings = pow(0.5 + 0.5 * sin(z * 5.5), 28.0);
-  float fine = pow(0.5 + 0.5 * sin(z * 16.0), 50.0);
-  float lanes = pow(0.5 + 0.5 * sin(a * 8.0), 14.0);
-  float wall = smoothstep(0.0, 0.1, r);
-
-  vec3 cyan = vec3(0.094, 0.698, 1.0);
-  vec3 deep = vec3(0.12, 0.32, 0.78);
-  vec3 ember = vec3(1.0, 0.38, 0.08);
-  vec3 amber = vec3(1.0, 0.55, 0.18);
-  vec3 col = vec3(0.02, 0.015, 0.03);
-  float heat = 0.5 + 0.5 * sin(z * 0.65 + a * 2.0);
-  vec3 warm = mix(ember, amber, heat);
-  vec3 ringCol = mix(cyan, warm, 0.28);
-
-  col += mix(deep, ringCol, rings) * rings * 1.55 * wall;
-  col += mix(cyan, ember, 0.32) * lanes * 0.38 * wall;
-  col += mix(vec3(0.75, 0.92, 1.0), amber, 0.22) * fine * 0.55 * wall;
-
-  float core = 0.016 / (r * r + 0.0018);
-  col += mix(cyan, amber, 0.2) * core * mix(0.35, 1.15, u_progress);
-  col *= 1.0 - smoothstep(0.52, 1.18, r);
-  col += mix(vec3(0.55, 0.82, 1.0), amber, 0.25) * pow(u_progress, 5.0);
-
-  gl_FragColor = vec4(col, 1.0);
+  float edge = u_open * 1.4;
+  float mask = smoothstep(edge, edge - 0.12, r);
+  col += cyan * exp(-abs(r - edge) * 35.0) * (1.0 - smoothstep(0.25, 0.45, u_progress)) * 1.5;
+  col = 1.0 - exp(-col * 1.25);
+  col = mix(col, vec3(1.0), pow(u_progress, 6.0));
+  float alpha = max(mask, smoothstep(0.25, 0.45, u_progress));
+  gl_FragColor = vec4(col * alpha, alpha);
 }
 `;
 
@@ -235,7 +263,8 @@ const initWormholeGL = () => {
   if (wormholeGL && !wormholeGL.gl.isContextLost()) return wormholeGL;
 
   const gl = wormholeCanvas.getContext("webgl", {
-    alpha: false,
+    alpha: true,
+    premultipliedAlpha: true,
     antialias: false,
     depth: false,
     stencil: false,
@@ -269,7 +298,10 @@ const initWormholeGL = () => {
     gl,
     program,
     uRes: gl.getUniformLocation(program, "u_res"),
-    uTime: gl.getUniformLocation(program, "u_time"),
+    uTravel: gl.getUniformLocation(program, "u_travel"),
+    uTwist: gl.getUniformLocation(program, "u_twist"),
+    uOpen: gl.getUniformLocation(program, "u_open"),
+    uGlow: gl.getUniformLocation(program, "u_glow"),
     uProgress: gl.getUniformLocation(program, "u_progress")
   };
   return wormholeGL;
@@ -301,7 +333,9 @@ const startWormhole = (url) => {
   }
 
   wormholeOverlay.classList.remove("wormhole--css");
-  const { gl, program, uRes, uTime, uProgress } = gpu;
+  const { gl, program, uRes, uTravel, uTwist, uOpen, uGlow, uProgress } = gpu;
+  let travel = 0;
+  let last = startedAt;
 
   const resize = () => {
     const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
@@ -321,9 +355,16 @@ const startWormhole = (url) => {
 
   const tick = (now) => {
     const progress = Math.min((now - startedAt) / wormholeDurationMs, 1);
+    const e = progress * progress;
+    // Integrate speed so acceleration never makes the tunnel jump
+    travel += (1.2 + 13 * e) * Math.max(0, now - last) / 1000;
+    last = now;
     resize();
     gl.uniform2f(uRes, wormholeCanvas.width, wormholeCanvas.height);
-    gl.uniform1f(uTime, (now - startedAt) / 1000);
+    gl.uniform1f(uTravel, travel);
+    gl.uniform1f(uTwist, 0.04 + 0.12 * e);
+    gl.uniform1f(uOpen, 1 - Math.pow(1 - Math.min(progress / 0.45, 1), 3));
+    gl.uniform1f(uGlow, 0.4 + 1.4 * e);
     gl.uniform1f(uProgress, progress);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     wormholeRaf = requestAnimationFrame(tick);
@@ -333,12 +374,12 @@ const startWormhole = (url) => {
   wormholeTimer = window.setTimeout(finish, wormholeDurationMs);
 };
 
-if (forumLink) {
-  forumLink.addEventListener("click", (event) => {
+if (wormholeLink) {
+  wormholeLink.addEventListener("click", (event) => {
     if (isModifiedClick(event) || !event.shiftKey) return;
 
     event.preventDefault();
-    const url = forumLink.href;
+    const url = wormholeLink.href;
 
     if (prefersReducedMotion() || document.body.classList.contains("wormhole-active")) {
       if (!document.body.classList.contains("wormhole-active")) {
